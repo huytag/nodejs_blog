@@ -1,7 +1,7 @@
 <div class="mt-4">
     <div class="div">
-        <h1>Cac blog</h1>
-        <a href="/me/trash/courses">Thung rac</a>
+        <a href="/me/stored/courses">danh dach blog</a>
+        <h1>Cac blog da xoa</h1>
     </div>
 
     <table class="table mt-4">
@@ -21,15 +21,15 @@
                 <td>{{this.lever}}</td>
                 <td>{{this.createdAt}}</td>
                 <td>
-                    <a href="/courses/{{this._id}}/edit" class="btn btn btn-link">Sua</a>
+                    <a href="" class="btn btn btn-link btn-restore" data-bs-whatever="{{this._id}}"  data-bs-toggle="modal"  data-bs-target="#retore-course" >Khoi phuc</a>
                     <a href="" class="btn btn btn-link" data-bs-toggle="modal" data-bs-whatever="{{this._id}}"
-                        data-bs-target="#delete-course">Xoa</a>
+                        data-bs-target="#delete-course">Xoa vinh vien</a>
                 </td>
             </tr>
             {{else}}
             <tr>
                 <td colspan="5" class="text-center">
-                    Ban chua co blog
+                    Thung rac trong.
                 </td>
             </tr>
             {{/each}}
@@ -55,21 +55,61 @@
     </div>
 </div>
 
+
+{{!-- khoi phuc --}}
+<div class="modal" id="retore-course" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Ban co muon khoi phuc khong blog khong
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huy</button>
+                <button id="btn-restore" type="button" class="btn btn-danger">khoi phuc blog</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <form method="POST" name="delete-form"></form>
+
+<form method="POST" name="retore-form"></form>
 
 <script>
     var idblog;
+    var idblog2;
+    var retoreForm = document.forms['retore-form'];
     var deleteForm = document.forms['delete-form'];
-    var btnDelet = document.getElementById('btn-delete');
-    var exampleModal = document.getElementById('delete-course');
+    var btnRestore = document.getElementById('btn-restore');
+    var btnDelete = document.getElementById('btn-delete');
+    var exampleModal = document.getElementById('retore-course');
+    var exampleModal2 = document.getElementById('delete-course');
 
     exampleModal.addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget
         idblog = button.getAttribute('data-bs-whatever');
     });
 
-    btnDelet.onclick = function () {
-        deleteForm.action = '/courses/' + idblog + '?_method=DELETE';
+    exampleModal2.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget
+        idblog2 = button.getAttribute('data-bs-whatever');
+    });
+
+    btnRestore.onclick = function () {
+        retoreForm.action = '/courses/' + idblog + '/restore?_method=PATCH';
+        retoreForm.submit();
+    }
+
+    btnDelete.onclick = function () {
+        deleteForm.action = '/courses/' + idblog2 + '/force?_method=DELETE';
         deleteForm.submit();
     }
+
+   
 </script>
