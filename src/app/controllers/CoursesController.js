@@ -43,6 +43,25 @@ class SiteController {
             .then(() =>  res.redirect('/me/stored/courses'))
             .catch(next);
     }
+    //([DELETE] courses/id)
+    delete(req, res, next){
+        Course.delete({ _id: req.params._id })
+            .then(() => res.redirect('back'))
+            .catch(next);
+    }
+
+    deleteforce(req, res, next){
+        Course.deleteOne({ _id: req.params._id })
+            .then(() => res.redirect('back'))
+            .catch(next);
+    }
+
+     //([PATH] restore/id)
+    restore(req, res, next){
+        Course.restore({ _id: req.params._id })
+            .then(() => res.redirect('back'))
+            .catch(next);
+    }
 
 }
 
