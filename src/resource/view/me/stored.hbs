@@ -1,22 +1,53 @@
 <div class="mt-4">
     <div class="div">
         <h1>Cac blog</h1>
-        <a href="/me/trash/courses">Thung rac</a>
+        {{#if deleteCount}}
+        <a href="/me/trash/courses">Thung rac ({{deleteCount}})</a>
+        {{/if}}
+        <div class="mt-4 d-flex align-items-center">
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Chon tat ca</label>
+            </div>
+            <select class="form-control form-control-   " id="exampleFormControlSelect1">
+                <option>chon hanh dong</option>
+                <option value="delete">xoa</option>
+            </select>
+            <button type="button" class="btn btn-primary disabled">thuc hien</button>
+        </div>
     </div>
 
     <table class="table mt-4">
         <thead>
             <tr>
-                <th scope="col">Stt</th>
-                <th scope="col">Ten blog</th>
-                <th scope="col">Trinh do</th>
-                <th scope="col">Thoi gian tao</th>
+                <th scope="col"></th>
+                <th scope="col">
+                    ID
+                    {{{sortable '_id' _sort}}}
+                </th>
+                <th scope="col">
+                    Ten blog
+                    {{{sortable 'name' _sort}}}
+                </th>
+                <th scope="col">
+                    Trinh do
+                    {{{sortable 'lever' _sort}}}
+                </th>
+                <th scope="col">
+                    Thoi gian tao
+                    {{{sortable 'createdAt' _sort}}}
+                </th>
             </tr>
         </thead>
         <tbody>
             {{#each courses}}
             <tr>
-                <th scope="row">{{sum @index 1}}</th>
+                <td>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" name="courseIds[]" value="{{this._id}}">
+                    </div>
+                </td>
+                <th scope="row">{{this._id}}</th>
                 <td>{{this.name}}</td>
                 <td>{{this.lever}}</td>
                 <td>{{this.createdAt}}</td>

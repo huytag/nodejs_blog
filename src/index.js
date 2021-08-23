@@ -3,6 +3,7 @@ const path = require('path');
 const morgan = require('morgan');
 const methodOverride = require('method-override');
 const handlebars = require('express-handlebars');
+const sortMiddleware = require('./app/middlewares/sortMiddleware.x');
 const app = express();
 const port = 3000;
 
@@ -12,6 +13,7 @@ const db = require('./config/db');
 // Connnect to DB
 db.connect();
 app.use(methodOverride('_method'));
+app.use(sortMiddleware);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
@@ -30,9 +32,7 @@ app.engine(
   'hbs',
   handlebars({
     extname: '.hbs',
-    helpers: {
-      sum: (a, b) => a + b,
-    }
+    helpers:  require('./app/helpers/handlebars')
   }),
 );
 app.set('view engine', 'hbs');
